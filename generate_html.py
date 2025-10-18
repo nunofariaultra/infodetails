@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
+import pytz
 
 OUTPUT_HTML = "summary_classification.html"
 
@@ -94,7 +95,8 @@ def summary_classification():
         timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         # Generate HTML
-        now = datetime.now()
+        tz_pt = pytz.timezone("Europe/Lisbon")
+        now = datetime.now(tz_pt).strftime("%d-%m-%Y %H:%M:%S")
         timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         html_content = f"""
@@ -131,3 +133,4 @@ def summary_classification():
 
 if __name__ == "__main__":
     summary_classification()
+
