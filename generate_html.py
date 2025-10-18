@@ -91,9 +91,9 @@ def summary_classification():
         df_por = df[df["Nationality"] == "POR"]
 
         # Generate HTML
+        # Fuso horário português (Lisboa)
         tz_pt = pytz.timezone("Europe/Lisbon")
-        now = datetime.now(tz_pt).strftime("%d-%m-%Y %H:%M:%S")
-        timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now(tz_pt).strftime("%d-%m-%Y %H:%M:%S")
 
         html_content = f"""
         <!DOCTYPE html>
@@ -129,5 +129,6 @@ def summary_classification():
 
 if __name__ == "__main__":
     summary_classification()
+
 
 
