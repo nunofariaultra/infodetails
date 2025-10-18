@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-OUTPUT_HTML = "/home/nunofaria/public_html/summary_classification.html"
+OUTPUT_HTML = "summary_classification.html"
 
 def summary_classification():
     url = "https://live.breizhchrono.com/types/generic/custo/x.running/findInResults.jsp"
@@ -101,3 +101,4 @@ def summary_classification():
 
 if __name__ == "__main__":
     summary_classification()
+
