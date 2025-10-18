@@ -35,7 +35,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 pandas
 
-      - name: Generate HTML file
+      - name: Run Python Generate HTML file
         run: |
           python generate_html.py
 
