@@ -6,7 +6,7 @@ import pytz
 
 OUTPUT_HTML = "summary_classification.html"
 
-FAVORITES = ['Pinto', 'Correia', 'Lopes', 'Rodrigues', 'Vitor', 'Barbosa', 'Francisco', 'Nicolas', 'Fotios', 'Andrii', 'BEREZNOWSKA', 'Carmen, 'Simen', 'Jandosa']
+FAVORITES = ['Pinto', 'Correia', 'Lopes', 'Rodrigues', 'Vitor', 'Barbosa', 'Francisco', 'Nicolas', 'Fotios', 'Andrii', 'BEREZNOWSKA', 'Carmen', 'Simen', 'Jandosa']
 
 def summary_classification():
     url = "https://live.breizhchrono.com/types/generic/custo/x.running/findInResults.jsp"
@@ -147,3 +147,4 @@ def summary_classification():
 
 if __name__ == "__main__":
     summary_classification()
+
