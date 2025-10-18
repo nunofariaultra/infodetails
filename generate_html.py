@@ -90,10 +90,6 @@ def summary_classification():
 
         df_por = df[df["Nationality"] == "POR"]
 
-        # Get current date and time
-        now = datetime.now()
-        timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-
         # Generate HTML
         tz_pt = pytz.timezone("Europe/Lisbon")
         now = datetime.now(tz_pt).strftime("%d-%m-%Y %H:%M:%S")
@@ -133,4 +129,5 @@ def summary_classification():
 
 if __name__ == "__main__":
     summary_classification()
+
 
