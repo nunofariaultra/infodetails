@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from datetime import datetime
 
 OUTPUT_HTML = "summary_classification.html"
 
@@ -88,17 +89,45 @@ def summary_classification():
 
         df_por = df[df["Nationality"] == "POR"]
 
-        html_content = "<h2>Portuguese Runners (POR)</h2>\n"
-        html_content += df_por.to_html(index=False, justify="center", border=1)
-        html_content += "<br><h2>Full Classification</h2>\n"
-        html_content += df.to_html(index=False, justify="center", border=1)
+        # Get current date and time
+        now = datetime.now()
+        timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        with open(OUTPUT_HTML, "w", encoding="utf-8-sig") as f:
+        # Generate HTML
+        now = datetime.now()
+        timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Breizhchrono Classification</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; }}
+                small {{ display: block; margin-bottom: 10px; color: gray; }}
+                table {{ border-collapse: collapse; width: 100%; margin-bottom: 20px; }}
+                th, td {{ border: 1px solid #ccc; padding: 8px; text-align: left; }}
+                th {{ background-color: #f2f2f2; }}
+            </style>
+        </head>
+        <body>
+            <small>Generated on {timestamp}</small>
+            <h3>Portuguese Runners</h3>
+            {df_por.to_html(index=False, escape=False)}
+            <h3>All Runners</h3>
+            {df.to_html(index=False, escape=False)}
+        </body>
+        </html>
+        """
+
+        # Save HTML
+        with open("summary_classification.html", "w", encoding="utf-8") as f:
             f.write(html_content)
+            
         print(f"HTML generated successfully: {OUTPUT_HTML}")
     else:
         print("No data extracted.")
 
 if __name__ == "__main__":
     summary_classification()
-
