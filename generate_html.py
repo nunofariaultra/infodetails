@@ -6,6 +6,8 @@ import pytz
 
 OUTPUT_HTML = "summary_classification.html"
 
+FAVORITES = ['Pinto', 'Correia', 'Lopes', 'Rodrigues', 'Vitor', 'Barbosa', 'Francisco', 'Nicolas', 'Fotios', 'Andrii', 'BEREZNOWSKA', 'Carmen, 'Simen', 'Jandosa']
+
 def summary_classification():
     url = "https://live.breizhchrono.com/types/generic/custo/x.running/findInResults.jsp"
 
@@ -55,7 +57,7 @@ def summary_classification():
                     if tds and len(tds) == len(expected_headers):
                         row_dict = dict(zip(headers_table, [''.join(td.stripped_strings) for td in tds]))
 
-                        # Extract Runner, Dossard, Nationality
+                        # Extrair Runner, Dossard e Nationality
                         name_col_idx = headers_table.index("Nom & Prénom")
                         name_cell = tds[name_col_idx]
                         a_tag = name_cell.find("a")
@@ -90,10 +92,26 @@ def summary_classification():
 
         df_por = df[df["Nationality"] == "POR"]
 
-        # Generate HTML
-        # Fuso horário português (Lisboa)
+        # Timestamp em Lisboa
         tz_pt = pytz.timezone("Europe/Lisbon")
         timestamp = datetime.now(tz_pt).strftime("%d-%m-%Y %H:%M:%S")
+
+        # Gerar HTML das linhas com destaque apenas para favoritos
+        def generate_table_html(df_input):
+            headers_html = "".join([f"<th>{col}</th>" for col in df_input.columns])
+            rows_html = ""
+            for _, row in df_input.iterrows():
+                row_color = ""
+                for fav in FAVORITES:
+                    if fav.lower() in row["Runner"].lower():
+                        row_color = ' style="background-color:#ccffcc;"'
+                        break
+                rows_html += "<tr" + row_color + ">" + "".join([f"<td>{row[col]}</td>" for col in df_input.columns]) + "</tr>"
+            table_html = f"<table>{headers_html}{rows_html}</table>"
+            return table_html
+
+        html_por = generate_table_html(df_por)
+        html_all = generate_table_html(df)
 
         html_content = f"""
         <!DOCTYPE html>
@@ -112,23 +130,20 @@ def summary_classification():
         <body>
             <small>Generated on {timestamp}</small>
             <h3>Portuguese Runners</h3>
-            {df_por.to_html(index=False, escape=False)}
+            {html_por}
             <h3>All Runners</h3>
-            {df.to_html(index=False, escape=False)}
+            {html_all}
         </body>
         </html>
         """
 
-        # Save HTML
-        with open("summary_classification.html", "w", encoding="utf-8") as f:
+        with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
             f.write(html_content)
-            
-        print(f"HTML generated successfully: {OUTPUT_HTML}")
+
+        print(f"✅ HTML generated successfully: {OUTPUT_HTML}")
     else:
-        print("No data extracted.")
+        print("⚠️ No data extracted.")
+
 
 if __name__ == "__main__":
     summary_classification()
-
-
-
